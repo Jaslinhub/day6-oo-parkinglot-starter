@@ -2,6 +2,8 @@ package com.afs.parkinglot;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingBoyTest {
@@ -9,14 +11,14 @@ public class ParkingBoyTest {
     void should_return_parking_ticket_when_park_given_a_parking_boy_and_a_car(){
         Car car=new Car();
         ParkingLot parkingLot=new ParkingLot(100);
-        ParkingBoy parkingBoy=new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy=new ParkingBoy(Arrays.asList(parkingLot));
         assertNotNull(parkingBoy.park(car));
     }
     @Test
     void should_return_parked_car_when_fetch_given_a_parking(){
         Car car=new Car();
         ParkingLot parkingLot=new ParkingLot(100);
-        ParkingBoy parkingBoy=new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy=new ParkingBoy(Arrays.asList(parkingLot));
         Car fetchedCar=parkingBoy.fetch(parkingBoy.park(car));
         assertNotNull(fetchedCar);
         assertSame(car, fetchedCar);
@@ -27,7 +29,7 @@ public class ParkingBoyTest {
         Car car1=new Car();
         Car car2=new Car();
         ParkingLot parkingLot=new ParkingLot(100);
-        ParkingBoy parkingBoy=new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy=new ParkingBoy(Arrays.asList(parkingLot));
         Ticket ticket1=parkingBoy.park(car1);
         Ticket ticket2=parkingBoy.park(car2);
         Car fetchedCar1=parkingBoy.fetch(ticket1);
@@ -42,7 +44,7 @@ public class ParkingBoyTest {
     void should_return_nothing_when_wrong_ticket_given(){
         Car car=new Car();
         ParkingLot parkingLot=new ParkingLot(100);
-        ParkingBoy parkingBoy=new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy=new ParkingBoy(Arrays.asList(parkingLot));
         parkingBoy.park(car);
         Ticket wrongTicket=new Ticket();
         assertThrows(UnrecognizedTicketException.class, () -> {
@@ -54,7 +56,7 @@ public class ParkingBoyTest {
     void should_return_nothing_when_used_ticket_given(){
         Car car=new Car();
         ParkingLot parkingLot=new ParkingLot(100);
-        ParkingBoy parkingBoy=new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy=new ParkingBoy(Arrays.asList(parkingLot));
         Ticket usedTicket=parkingBoy.park(car);
         parkingBoy.fetch(usedTicket);
         assertThrows(UnrecognizedTicketException.class, () -> {
@@ -67,10 +69,19 @@ public class ParkingBoyTest {
         Car car1=new Car();
         Car car2=new Car();
         ParkingLot parkingLot=new ParkingLot(1);
-        ParkingBoy parkingBoy=new ParkingBoy(parkingLot);
+        ParkingBoy parkingBoy=new ParkingBoy(Arrays.asList(parkingLot));
         parkingBoy.park(car1);
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(NoAvailablePositionException.class, () -> {
             parkingBoy.park(car2);
         });
+    }
+    @Test
+    void should_park_car_in_first_parking_lot_when_both_parking_lots_have_available_position(){
+        Car car=new Car();
+        ParkingLot parkingLot1=new ParkingLot(1);
+        ParkingLot parkingLot2=new ParkingLot(1);
+        ParkingBoy parkingBoy = new ParkingBoy(Arrays.asList(parkingLot1, parkingLot2));
+        Ticket ticket=parkingBoy.park(car);
+        assertSame(car, parkingBoy.fetch(ticket));
     }
 }

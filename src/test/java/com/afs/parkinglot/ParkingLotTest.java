@@ -76,7 +76,7 @@ public class ParkingLotTest {
         Car car2=new Car();
         ParkingLot parkingLot=new ParkingLot(1);
         parkingLot.park(car1);
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(NoAvailablePositionException.class, () -> {
             parkingLot.park(car2);
         });
     }

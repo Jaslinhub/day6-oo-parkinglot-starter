@@ -10,10 +10,12 @@ public class ParkingLot {
     public ParkingLot(int capacity) {
         this.capacity=capacity;
     }
-
-    public Ticket park(Car car) {
-        if (parkCars.size() >= capacity) {
-            throw new IllegalStateException("Unrecognized parking ticket.");
+    public boolean hasAvailablePosition() {
+        return parkCars.size() < capacity;
+    }
+    public Ticket park(Car car){
+        if (!hasAvailablePosition()) {
+            throw new NoAvailablePositionException("No available position.");
         }
         Ticket ticket=new Ticket();
         parkCars.put(ticket,car);
