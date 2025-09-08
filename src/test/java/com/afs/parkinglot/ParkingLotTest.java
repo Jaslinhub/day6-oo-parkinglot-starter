@@ -21,6 +21,30 @@ public class ParkingLotTest {
         assertNotNull(fetchedCar);
         assertSame(car, fetchedCar);
 
+    }
+    //a parking lot with two parked cars, two tickets to fetch the cars	return each right parked car
+    @Test
+    void should_return_each_parked_car_when_given_two_tickets(){
+        Car car1=new Car();
+        Car car2=new Car();
+        ParkingLot parkingLot=new ParkingLot(100);
+        Ticket ticket1=parkingLot.park(car1);
+        Ticket ticket2=parkingLot.park(car2);
+        Car fetchedCar1=parkingLot.fetch(ticket1);
+        Car fetchedCar2=parkingLot.fetch(ticket2);
+        assertNotNull(fetchedCar1);
+        assertNotNull(fetchedCar2);
+        assertSame(car1, fetchedCar1);
+        assertSame(car2, fetchedCar2);
 
+    }
+    //a parking lot with a car,no ticket to fetch the car then return nothing
+    @Test
+    void should_return_nothing_when_no_ticket_given(){
+        Car car=new Car();
+        ParkingLot parkingLot=new ParkingLot(100);
+        parkingLot.park(car);
+        Car fetchedCar=parkingLot.fetch(null);
+        assertSame(null, fetchedCar);
     }
 }
