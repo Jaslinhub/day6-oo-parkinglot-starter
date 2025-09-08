@@ -57,6 +57,18 @@ public class ParkingLotTest {
             parkingLot.fetch(wrongTicket);
         });
     }
+    //a parking lot with a car, a used ticket to fetch the car then return error message
+    @Test
+    void should_return_nothing_when_used_ticket_given(){
+        Car car=new Car();
+        ParkingLot parkingLot=new ParkingLot(100);
+        Ticket ticket=parkingLot.park(car);
+        parkingLot.fetch(ticket);
+        assertThrows(UnrecognizedTicketException.class, () -> {
+            parkingLot.fetch(ticket);
+        });
+    }
+
     //a parking lot without capacity, a car to park then return error message
     @Test
     void should_return_nothing_when_parking_lot_is_full(){
@@ -68,4 +80,5 @@ public class ParkingLotTest {
             parkingLot.park(car2);
         });
     }
+
 }
