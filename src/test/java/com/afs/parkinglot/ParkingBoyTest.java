@@ -96,4 +96,21 @@ public class ParkingBoyTest {
         Ticket ticket = parkingBoy.park(car2);
         assertSame(car2, parkingLot2.fetch(ticket));
     }
+    //Given two parking lots, both with a parked car, and two parking ticket, When fetch the car twice, Then return the right car with each ticket
+    @Test
+    void should_return_each_parked_car_when_fetch_twice_given_two_parking_lots(){
+        Car car1=new Car();
+        Car car2=new Car();
+        ParkingLot parkingLot1=new ParkingLot(100);
+        ParkingLot parkingLot2=new ParkingLot(100);
+        ParkingBoy parkingBoy=new ParkingBoy(Arrays.asList(parkingLot1,parkingLot2));
+        Ticket ticket1=parkingBoy.park(car1);
+        Ticket ticket2=parkingBoy.park(car2);
+        Car fetchedCar1=parkingBoy.fetch(ticket1);
+        Car fetchedCar2=parkingBoy.fetch(ticket2);
+        assertNotNull(fetchedCar1);
+        assertNotNull(fetchedCar2);
+        assertSame(car1, fetchedCar1);
+        assertSame(car2, fetchedCar2);
+    }
 }
