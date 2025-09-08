@@ -84,4 +84,16 @@ public class ParkingBoyTest {
         Ticket ticket=parkingBoy.park(car);
         assertSame(car, parkingBoy.fetch(ticket));
     }
+
+    @Test
+    void should_park_car_in_second_parking_lot_when_first_parking_lot_is_full() {
+        Car car1 = new Car();
+        Car car2 = new Car();
+        ParkingLot parkingLot1 = new ParkingLot(1);
+        ParkingLot parkingLot2 = new ParkingLot(1);
+        ParkingBoy parkingBoy = new ParkingBoy(Arrays.asList(parkingLot1, parkingLot2));
+        parkingBoy.park(car1);
+        Ticket ticket = parkingBoy.park(car2);
+        assertSame(car2, parkingLot2.fetch(ticket));
+    }
 }
