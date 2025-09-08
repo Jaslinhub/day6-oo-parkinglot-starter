@@ -12,6 +12,9 @@ public class ParkingLot {
     }
 
     public Ticket park(Car car) {
+        if (parkCars.size() >= capacity) {
+            throw new IllegalStateException("Unrecognized parking ticket.");
+        }
         Ticket ticket=new Ticket();
         parkCars.put(ticket,car);
         return ticket;

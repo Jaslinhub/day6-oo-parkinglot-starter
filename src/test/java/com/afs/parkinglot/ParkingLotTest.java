@@ -57,4 +57,15 @@ public class ParkingLotTest {
             parkingLot.fetch(wrongTicket);
         });
     }
+    //a parking lot without capacity, a car to park then return error message
+    @Test
+    void should_return_nothing_when_parking_lot_is_full(){
+        Car car1=new Car();
+        Car car2=new Car();
+        ParkingLot parkingLot=new ParkingLot(1);
+        parkingLot.park(car1);
+        assertThrows(IllegalStateException.class, () -> {
+            parkingLot.park(car2);
+        });
+    }
 }
