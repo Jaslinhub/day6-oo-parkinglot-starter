@@ -2,8 +2,7 @@ package com.afs.parkinglot;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingLotTest {
     @Test
@@ -47,14 +46,15 @@ public class ParkingLotTest {
         Car fetchedCar=parkingLot.fetch(null);
         assertSame(null, fetchedCar);
     }
-    //a parking lot with a car, a wrong ticket to fetch the car then return nothing
+    //a parking lot with a car, a wrong ticket to fetch the car then return error message
     @Test
     void should_return_nothing_when_wrong_ticket_given(){
         Car car=new Car();
         ParkingLot parkingLot=new ParkingLot(100);
         parkingLot.park(car);
         Ticket wrongTicket=new Ticket();
-        Car fetchedCar=parkingLot.fetch(wrongTicket);
-        assertSame(null, fetchedCar);
+        assertThrows(UnrecognizedTicketException.class, () -> {
+            parkingLot.fetch(wrongTicket);
+        });
     }
 }
